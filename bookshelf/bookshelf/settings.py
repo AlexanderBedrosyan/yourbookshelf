@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'bookshelf.book',
     'bookshelf.author',
     'bookshelf.accounts',
+    'bookshelf.common',
 ]
 
 MIDDLEWARE = [
