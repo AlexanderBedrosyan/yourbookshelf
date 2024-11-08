@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bookshelf.book',
     'bookshelf.author',
+    'bookshelf.accounts',
 ]
 
 MIDDLEWARE = [
