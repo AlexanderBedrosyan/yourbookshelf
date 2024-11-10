@@ -1,0 +1,13 @@
+.custom-button {
+    background-color: #908d8c;
+    color: white;
+}
+
+.custom-button:hover {
+    background-color: #7f7b7a;
+}
+
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: none;
+}
