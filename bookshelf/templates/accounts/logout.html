@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Logout</title>
+    {% include 'common/link.html' %}
+    <link rel="stylesheet" href="{% static 'css/logout.css' %}">
+</head>
+<body>
+    {% include 'common/nav.html' %}
+    <div class="container mt-5 d-flex justify-content-center">
+        <div class="card" style="width: 400px;">
+            <div class="card-header text-center" style="background-color: #908d8c;">
+                <img src="{% static 'images/logout.gif' %}" alt="LogIn" class="img-fluid mx-auto d-block"
+                     style="max-height: 80px; border-radius: 50px">
+            </div>
+            <div class="card-body text-center">
+                <p>Are you sure you want to log out?</p>
+                <div class="d-flex justify-content-center">
+                    <a href="{% url 'logout' %}" class="btn btn-danger mr-2">Yes</a>
+                    <a href="{% url 'home' %}" class="btn btn-secondary">No</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    {% include 'common/footer.html' %}
+</body>
+</html>
