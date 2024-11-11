@@ -10,13 +10,13 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="{% url 'add-book' %}">Add Book</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="{% url 'add-author' %}">Add Author</a>
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item active dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     Genres
@@ -38,15 +38,15 @@
                     <a class="dropdown-item" href="#">Others</a>
                 </div>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="#">Quiz</a>
             </li>
             {% if user.is_authenticated %}
-            <li class="nav-item">
-                <a class="nav-link" href="#">Logout</a>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'logout-page' %}">Logout</a>
             </li>
             {% else %}
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="{% url 'login' %}">Login</a>
             </li>
             {% endif %}
