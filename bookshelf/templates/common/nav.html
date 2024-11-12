@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #908d8c">
-    <a class="navbar-brand" href="#">MyBookShelf</a>
+    <a class="navbar-brand fs-4 py-2" href="#">MyBookShelf</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -8,20 +8,20 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link fs-5 py-2" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'add-book' %}">Add Book</a>
+                <a class="nav-link fs-5 py-2" href="{% url 'add-book' %}">Add Book</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'add-author' %}">Add Author</a>
+                <a class="nav-link fs-5 py-2" href="{% url 'add-author' %}">Add Author</a>
             </li>
             <li class="nav-item active dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                <a class="nav-link dropdown-toggle fs-5 py-2" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     Genres
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-menu fs-5 py-2" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="#">Classics</a>
                     <a class="dropdown-item" href="#">Crime</a>
                     <a class="dropdown-item" href="#">Thriller</a>
@@ -39,19 +39,19 @@
                 </div>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="#">Quiz</a>
+                <a class="nav-link fs-5 py-2" href="#">Quiz</a>
             </li>
             {% if user.is_authenticated %}
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'logout-page' %}">Logout</a>
+                <a class="nav-link fs-5 py-2" href="{% url 'logout-page' %}">Logout</a>
             </li>
             {% else %}
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'login' %}">Login</a>
+                <a class="nav-link fs-5 py-2" href="{% url 'login' %}">Login</a>
             </li>
             {% endif %}
         </ul>
-        <a class="navbar-brand" style="color: white">User: {{ user }}</a>
+        <a class="navbar-brand fs-6 text-white">User: {{ user }}</a>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>

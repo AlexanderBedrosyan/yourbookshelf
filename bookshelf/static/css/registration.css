@@ -11,3 +11,7 @@ button[type='submit'] {
 button[type='submit']:hover {
     background-color: #7f7b7a;
 }
+
+.mb-7 {
+    margin-bottom: 3.5rem;
+}
