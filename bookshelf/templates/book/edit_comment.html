@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Comment</title>
+    {% include 'common/link.html' %}
+</head>
+<body>
+{% include 'common/nav.html' %}
+
+<div class="container mt-5">
+    <h2>Редактиране на коментар</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="id_text">Коментар</label>
+            {{ form.text }}
+        </div>
+        
+        <button type="submit" class="btn btn-success">Запази промените</button>
+        
+        <a href="{% url 'home' %}" class="btn btn-secondary ml-2">Откажи</a>
+    </form>
+</div>
+
+{% include 'common/footer.html' %}
+</body>
+</html>

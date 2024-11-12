@@ -1,0 +1,29 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Comment</title>
+    {% include 'common/link.html' %}
+</head>
+<body>
+{% include 'common/nav.html' %}
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4 class="card-title">Изтриване на коментар</h4>
+                <p class="card-text">Сигурни ли сте, че искате да изтриете този коментар?</p>
+                
+                <form method="post" action="{% url 'delete_comment' comment.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Да, изтрий</button>
+                    <a href="{% url 'home' %}" class="btn btn-secondary">Не, върни ме обратно</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% include 'common/footer.html' %}
+</body>
+</html>
