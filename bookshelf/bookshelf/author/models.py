@@ -26,7 +26,7 @@ class Author(models.Model):
         blank=True,
         null=True
     )
-    user = models.OneToOneField(
+    user = models.ForeignKey(
         to=CustomerModel,
         blank=False,
         null=False,
