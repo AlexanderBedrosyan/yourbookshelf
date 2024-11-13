@@ -13,6 +13,7 @@
 
 <div class="container mt-5">
     {% for book in books %}
+        {% if book.approved %}
         <div class="card mb-4">
             <div class="card-body">
                 <div class="row">
@@ -23,7 +24,7 @@
 
                     <div class="col-md-8 d-flex flex-column align-items-center justify-content-center">
                         <h5>{{ book.title }}</h5>
-                        <small>{{ book.author.get_full_name }}</small>
+                        <small><a href="{% url 'author-details' book.author.id %}" class="text-primary text-decoration-underline">{{ book.author.get_full_name }}</a></small>
                         <p class="card-text mt-3 text-center">{{ book.description }}</p>
                     </div>
 
@@ -85,6 +86,7 @@
                 {% endif %}
             </div>
         </div>
+        {% endif %}
     {% endfor %}
 </div>
 
