@@ -1,0 +1,57 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Author</title>
+    {% include 'common/link.html' %}
+</head>
+<body>
+{% include 'common/nav.html' %}
+<div class="container mt-5">
+    <h2>Edit the Author</h2>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-group mb-3">
+                    <label for="id_first_name">First Name</label>
+                    <input type="text" class="form-control" id="id_first_name" name="first_name" value="{{ form.first_name.value }}" required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="id_last_name">Last Name</label>
+                    <input type="text" class="form-control" id="id_last_name" name="last_name" value="{{ form.last_name.value }}" required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="id_date_of_birth">Date Of Birth</label>
+                    <input type="date" class="form-control" id="id_date_of_birth" name="date_of_birth"
+                           value="{{ form.date_of_birth.value|date:'Y-m-d' }}" required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="id_bio">Biography</label>
+                    <textarea class="form-control" id="id_bio" name="bio" rows="4">{{ form.bio.value }}</textarea>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="id_picture_url">Picture's url</label>
+                    <input type="url" class="form-control" id="id_picture_url" name="picture_url"
+                           value="{{ form.picture_url.value }}">
+                </div>
+
+                
+                <button type="submit" class="btn btn-success">Save Changes</button>
+                <a href="{% url 'author-details'  author.id %}" class="btn btn-secondary ml-2">Reject</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% include 'common/footer.html' %}
+</body>
+</html>

@@ -11,19 +11,19 @@
 {% include 'common/nav.html' %}
 
 <div class="container mt-5">
-    <h2>Редактиране на коментар</h2>
+    <h2>Edit your comment</h2>
 
     <form method="post">
         {% csrf_token %}
         
         <div class="form-group">
-            <label for="id_text">Коментар</label>
+            <label for="id_text">Comment</label>
             {{ form.text }}
         </div>
         
-        <button type="submit" class="btn btn-success">Запази промените</button>
+        <button type="submit" class="btn btn-success">Save the changes</button>
         
-        <a href="{% url 'home' %}" class="btn btn-secondary ml-2">Откажи</a>
+        <a href="{% url 'home' %}" class="btn btn-secondary ml-2">Reject</a>
     </form>
 </div>
 

@@ -32,7 +32,7 @@
             </div>
 
             <div class="card-footer">
-                <h6>Рейтинг: {{ book.average_rating }}</h6>
+                <h6>Rating: {{ book.average_rating }}</h6>
                 <div class="rating mb-3">
                     <i class="fas fa-star" style="cursor: pointer;"></i>
                     <i class="fas fa-star" style="cursor: pointer;"></i>
@@ -41,7 +41,7 @@
                     <i class="fas fa-star" style="cursor: pointer;"></i>
                 </div>
 
-                <h6>Коментари:</h6>
+                <h6>Comments:</h6>
                 <ul class="list-group mb-3">
                     {% if book.comments.all %}
                         {% for comment in book.comments.all|dictsort:"created_at" %}
@@ -67,7 +67,7 @@
 
                         {% endfor %}
                     {% else %}
-                        <li class="list-group-item text-muted">Все още няма коментари.</li>
+                        <li class="list-group-item text-muted">No comments yet.</li>
                     {% endif %}
                 </ul>
 
@@ -75,14 +75,14 @@
                     <form method="post" action="{% url 'add_comment' book.id %}">
                         {% csrf_token %}
                         <div class="input-group">
-                            <input type="text" name="text" class="form-control" placeholder="Добави коментар" required>
+                            <input type="text" name="text" class="form-control" placeholder="Add a comment" required>
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="submit">Коментар</button>
+                                <button class="btn btn-primary" type="submit">Comment</button>
                             </div>
                         </div>
                     </form>
                 {% else %}
-                    <p><a href="{% url 'login' %}">Влез</a>, за да оставиш коментар.</p>
+                    <p><a href="{% url 'login' %}">Log</a> in to leave a comment.</p>
                 {% endif %}
             </div>
         </div>
