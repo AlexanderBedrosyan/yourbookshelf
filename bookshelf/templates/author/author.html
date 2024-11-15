@@ -13,40 +13,38 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card mb-3 shadow-sm">
-                <div class="row g-0">
+                
+                <!-- Секция за изображението винаги отгоре -->
+                <div class="d-flex align-items-center justify-content-center p-3">
                     {% if author.picture_url %}
-                        <div class="col-md-4 d-flex align-items-center justify-content-center p-3">
-                            <img src="{{ author.picture_url }}"
-                                 class="img-fluid rounded border border-secondary shadow-sm"
-                                 alt="{% static 'images/no-photo.gif' %}" style="max-height: 200px; object-fit: cover;">
-                        </div>
+                        <img src="{{ author.picture_url }}"
+                             class="img-fluid rounded border border-secondary shadow-sm"
+                             alt="Author Picture" style="max-height: 200px; object-fit: cover;">
                     {% else %}
-                        <div class="col-md-4 d-flex align-items-center justify-content-center p-3">
-                            <img src="{% static 'images/no-photo.gif' %}"
-                                 class="img-fluid rounded border border-secondary shadow-sm"
-                                 alt="{% static 'images/no-photo.gif' %}" style="max-height: 200px; object-fit: cover;">
-                        </div>
+                        <img src="{% static 'images/no-photo.gif' %}"
+                             class="img-fluid rounded border border-secondary shadow-sm"
+                             alt="No Picture Available" style="max-height: 200px; object-fit: cover;">
                     {% endif %}
+                </div>
+            
+                <div class="card-body">
+                    <h5 class="card-title">{{ author.get_full_name }}</h5>
+                    <p class="card-text"><strong>Biography:</strong> {{ author.bio }}</p>
+                    <p class="card-text"><strong>Date of Birth:</strong> {{ author.date_of_birth }}</p>
 
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ author.get_full_name }}</h5>
-                            <p class="card-text"><strong>Biography:</strong> {{ author.bio }}</p>
-                            <p class="card-text"><strong>Date of Birth:</strong> {{ author.date_of_birth }}</p>
-
-                            <div class="mt-3">
-                                {% if request.user == author.user %}
-                                    <a href="{% url 'edit-author' author.id %}" class="btn btn-secondary">Edit</a>
-                                    <a href="" class="btn btn-danger">Delete</a>
-                                {% endif %}
-                                <a href="{% url 'home' %}" class="btn btn-dark">Back</a>
-                            </div>
-                        </div>
+                    <div class="mt-3">
+                        {% if request.user == author.user %}
+                            <a href="{% url 'edit-author' author.id %}" class="btn btn-secondary">Edit</a>
+                            <a href="" class="btn btn-danger">Delete</a>
+                        {% endif %}
+                        <a href="{% url 'home' %}" class="btn btn-dark">Back</a>
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>
+</div>
 
     {% include 'common/footer.html' %}
 </body>
