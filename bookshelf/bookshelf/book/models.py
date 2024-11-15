@@ -1,10 +1,10 @@
 from django.core.validators import MaxLengthValidator
 from django.db import models
 from django.db.models import Avg
-
 from bookshelf.accounts.models import CustomerModel
 from bookshelf.author.models import Author
 from .validators import UpperValueValidator
+from .genre_choices import GenreChoices
 
 
 # Create your models here.
@@ -39,6 +39,11 @@ class Book(models.Model):
     )
     approved = models.BooleanField(
         default=False
+    )
+    genre = models.CharField(
+        max_length=40,
+        choices=GenreChoices.choices,
+        default=GenreChoices.OTHERS
     )
 
     def __str__(self):
