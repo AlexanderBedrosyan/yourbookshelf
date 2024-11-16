@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.contrib import messages
 
 from bookshelf.accounts.forms import LoginForm, CustomerRegistrationForm, CustomerDetailsForm
@@ -67,3 +67,10 @@ class EditAccountView(LoginRequiredMixin, UpdateView):
         customer_id = self.object.id
         print(customer_id)
         return reverse_lazy('account-details', kwargs={'id': customer_id})
+
+
+class DeleteAccountView(DeleteView):
+    template_name = 'accounts/delete_account.html'
+    pk_url_kwarg = 'id'
+    model = CustomerModel
+    success_url = reverse_lazy('home')
