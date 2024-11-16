@@ -34,7 +34,7 @@
                     <div class="mt-3">
                         {% if request.user == author.user %}
                             <a href="{% url 'edit-author' author.id %}" class="btn btn-secondary">Edit</a>
-                            <a href="" class="btn btn-danger">Delete</a>
+                            <a href="{% url 'delete-author' author.id %}" class="btn btn-danger">Delete</a>
                         {% endif %}
                         <a href="{% url 'home' %}" class="btn btn-dark">Back</a>
                     </div>

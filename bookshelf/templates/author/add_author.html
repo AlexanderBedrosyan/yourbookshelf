@@ -4,12 +4,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add Author</title>
     {% include 'common/link.html' %}
+    <link rel="stylesheet" href="{% static 'css/errors.css' %}">
 </head>
 <body>
-    {% include 'common/nav.html' %}
+{% include 'common/nav.html' %}
 
-    {% include 'common/footer.html' %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-secondary text-white text-center">
+                    <h5>Create New Author</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_div }}
+
+                        <div class="d-flex justify-content-center mt-3">
+                            <button type="submit" class="btn btn-info px-4">Create Author</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card-footer text-center">
+                    <a href="{% url 'home' %}" class="btn btn-secondary btn-sm">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% include 'common/footer.html' %}
 </body>
 </html>
