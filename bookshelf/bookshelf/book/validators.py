@@ -14,7 +14,7 @@ class UpperValueValidator:
     @message.setter
     def message(self, value):
         if value is None:
-            self.__message = "Not more than 490 characters and first letter should be upper"
+            self.__message = "Description must start with an uppercase letter."
         else:
             self.__message = value
 
