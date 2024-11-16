@@ -1,0 +1,29 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Author</title>
+    {% include 'common/link.html' %}
+</head>
+<body>
+{% include 'common/nav.html' %}
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4 class="card-title">Delete the author</h4>
+                <p class="card-text">Are you certain you want to delete the author ({{ author.get_full_name }})?</p>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Yes, I'm sure.</button>
+                    <a href="{% url 'author-details' author.id %}" class="btn btn-secondary">No, I don't want to.</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% include 'common/footer.html' %}
+</body>
+</html>
