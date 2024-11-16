@@ -11,10 +11,6 @@ def add_book(request):
     return render(request, 'book/add_book.html')
 
 
-def books_by_genre(request):
-    return render(request, 'book/books_by_genre.html')
-
-
 class BooksByGenreView(ListView):
     template_name = 'book/books_by_genre.html'
     context_object_name = 'books'
