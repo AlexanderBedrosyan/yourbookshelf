@@ -19,5 +19,5 @@ class UpperValueValidator:
             self.__message = value
 
     def __call__(self, value: str, *args, **kwargs):
-        if value[0] != value[0].upper():
-            raise ValidationError(self.message)
+        if value[0] != value[0].upper() and value[0] not in ('"', "'", '“', '”', '‘', '’', '„', '«', '»'):
+            raise ValidationError("The text must start with an uppercase letter or an allowed quotation symbol.")
