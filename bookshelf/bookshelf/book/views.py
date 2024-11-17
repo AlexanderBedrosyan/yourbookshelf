@@ -1,14 +1,27 @@
 from django.shortcuts import render
-from django.views.generic import DetailView, ListView
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, ListView, CreateView
 
+from bookshelf.book.forms import CreateBookForm
 from bookshelf.book.models import Book
 
 
 # Create your views here.
 
 
-def add_book(request):
-    return render(request, 'book/add_book.html')
+class CreateBookView(CreateView):
+    template_name = 'book/add_book.html'
+    model = Book
+    form_class = CreateBookForm
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        if not form.is_valid():
+            print(form.errors)
+            return self.form_invalid(form)
+
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 class BooksByGenreView(ListView):
