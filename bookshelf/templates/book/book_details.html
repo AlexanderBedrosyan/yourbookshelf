@@ -1,0 +1,39 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    {% include 'common/link.html' %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+{% include 'common/nav.html' %}
+
+<div class="container mt-5">
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 d-flex justify-content-center align-items-center">
+                    <img src="{{ book.picture_url }}" class="img-fluid rounded" alt="Book Image"
+                         style="max-width: 100%; max-height: 200px; object-fit: cover;">
+                </div>
+
+                <div class="col-md-8 d-flex flex-column align-items-center justify-content-center">
+                    <h5>{{ book.title }}</h5>
+                    <small><a href="{% url 'author-details' book.author.id %}"
+                              class="text-primary text-decoration-underline">{{ book.author.get_full_name }}</a></small>
+                    <p class="card-text mt-3 text-center">{{ book.description }}</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+{% include 'common/footer.html' %}
+</body>
+</html>

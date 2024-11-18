@@ -11,10 +11,10 @@
 <body>
 {% include 'common/nav.html' %}
 
-<div class="container mt-5">
+<div class="container mt-5 .book-card" style="margin-bottom: 3em">
     {% for book in books %}
         {% if book.approved and book.author.approved %}
-            <div class="card mb-4">
+            <div class="card mb-4" style="margin-bottom: 3em">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4 d-flex justify-content-center align-items-center">
@@ -26,7 +26,10 @@
                             <h5>{{ book.title }}</h5>
                             <small><a href="{% url 'author-details' book.author.id %}"
                                       class="text-primary text-decoration-underline">{{ book.author.get_full_name }}</a></small>
-                            <p class="card-text mt-3 text-center">{{ book.description }}</p>
+                            <p class="card-text mt-3 text-center">{{ book.description|truncatechars:490 }}</p>
+                            {% if book.description|length > 100 %}
+                                <a href="{% url 'book-details' book.id %}" class="btn btn-link">Read More</a>
+                            {% endif %}
                         </div>
 
                     </div>
