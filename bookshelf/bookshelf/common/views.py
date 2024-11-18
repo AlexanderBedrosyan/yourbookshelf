@@ -11,6 +11,9 @@ from bookshelf.book.models import Book, Rating, Comment
 
 # Create your views here.
 
+class FrontPageView(TemplateView):
+    template_name = 'common/front_page.html'
+
 
 class HomePageView(ListView):
     template_name = 'common/home.html'
