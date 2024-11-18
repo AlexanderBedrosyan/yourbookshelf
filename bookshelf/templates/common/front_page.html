@@ -1,0 +1,25 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome!</title>
+    {% include 'common/link.html' %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/front_page.css' %}">
+</head>
+<body>
+{% include 'common/nav.html' %}
+
+<div class="video-container">
+    <h1 class="video-text">
+        Welcome To The Book World!
+    </h1>
+    <img src="https://media1.tenor.com/m/vDtqjv47FsIAAAAC/book-school.gif" alt="Welcome to the book world"
+         class="video-background">
+</div>
+
+{% include 'common/footer.html' %}
+</body>
+</html>
