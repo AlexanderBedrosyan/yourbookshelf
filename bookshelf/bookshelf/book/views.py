@@ -31,3 +31,10 @@ class BooksByGenreView(ListView):
     def get_queryset(self):
         genre = self.kwargs['genre']
         return Book.objects.filter(genre=genre)
+
+
+class BookDetailsView(DetailView):
+    template_name = 'book/book_details.html'
+    model = Book
+    pk_url_kwarg = 'id'
+    context_object_name = 'book'

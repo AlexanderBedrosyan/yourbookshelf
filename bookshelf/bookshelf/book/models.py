@@ -28,8 +28,8 @@ class Book(models.Model):
         null=False
     )
     description = models.TextField(
-        validators=[MaxLengthValidator(490), UpperValueValidator()],
-        help_text="Not more than 490 characters and first letter should be upper"
+        validators=[MaxLengthValidator(2000), UpperValueValidator()],
+        help_text="Not more than 2000 characters and first letter should be upper or an allowed quotation symbol."
     )
     title = models.CharField(
         max_length=200,
