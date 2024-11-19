@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView, UpdateView, DeleteView, CreateView
 from bookshelf.author.forms import UpdateAuthorForm, CreateAuthorForm
 from bookshelf.author.models import Author
+from ..mixins import PermissionCheckMixin
 
 
 # Create your views here.
@@ -19,7 +20,7 @@ class AuthorDetails(DetailView):
     pk_url_kwarg = 'author_id'
 
 
-class EditAuthorView(LoginRequiredMixin, UpdateView):
+class EditAuthorView(LoginRequiredMixin, PermissionCheckMixin, UpdateView):
     template_name = 'author/edit_author.html'
     pk_url_kwarg = 'author_id'
     model = Author
@@ -30,7 +31,7 @@ class EditAuthorView(LoginRequiredMixin, UpdateView):
         return reverse_lazy('author-details', kwargs={'author_id': author_id})
 
 
-class DeleteAuthorView(DeleteView):
+class DeleteAuthorView(LoginRequiredMixin, PermissionCheckMixin, DeleteView):
     template_name = 'author/delete_author.html'
     model = Author
     pk_url_kwarg = 'author_id'

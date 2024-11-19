@@ -5,5 +5,5 @@ register = template.Library()
 
 
 @register.simple_tag
-def get_all_books():
-    return Book.objects.all()
+def get_unique_genres():
+    return Book.objects.values('genre').distinct()
