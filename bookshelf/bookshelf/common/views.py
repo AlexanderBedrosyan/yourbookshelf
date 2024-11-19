@@ -4,9 +4,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, DetailView, ListView, CreateView, UpdateView, DeleteView
-
 from bookshelf.book.forms import UpdateCommentForm, DeleteCommentForm
 from bookshelf.book.models import Book, Rating, Comment
+from django.contrib import messages
+from ..mixins import PermissionCheckMixin
 
 
 # Create your views here.
@@ -33,7 +34,7 @@ class AddCommentView(LoginRequiredMixin, View):
         return redirect(reverse_lazy('home'))
 
 
-class EditCommentView(LoginRequiredMixin, UpdateView):
+class EditCommentView(LoginRequiredMixin, PermissionCheckMixin, UpdateView):
     template_name = 'book/edit_comment.html'
     pk_url_kwarg = 'pk'
     model = Comment
@@ -41,7 +42,7 @@ class EditCommentView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('home')
 
 
-class DeleteCommentView(DeleteView):
+class DeleteCommentView(LoginRequiredMixin, PermissionCheckMixin, DeleteView):
     pk_url_kwarg = 'pk'
     template_name = 'book/delete_comment.html'
     success_url = reverse_lazy('home')
@@ -53,6 +54,10 @@ class DeleteCommentView(DeleteView):
 
     def form_invalid(self, form):
         return self.form_valid(form)
+
+
+class PermissionDeniedView(TemplateView):
+    template_name = 'common/not_allow_page.html'
 
 
 
