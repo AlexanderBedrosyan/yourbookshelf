@@ -1,0 +1,29 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    {% include 'common/link.html' %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+{% include 'common/nav.html' %}
+
+<div class="container mt-5 .book-card" style="width: 40rem;">
+    <img src="https://assets.wpdeveloper.com/2022/08/image.png" class="card-img-top" alt="...">
+    <div class="card card-body text-center">
+        <h5 class="card-title">Important Notification</h5>
+        {% if messages %}
+            {% for message in messages %}
+                <p class="card-text">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+
+{% include 'common/footer.html' %}
+</body>
+</html>

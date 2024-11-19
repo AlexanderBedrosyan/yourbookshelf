@@ -1,4 +1,4 @@
-{% load get_all_books %}
+{% load get_unique_genres %}
 
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #908d8c">
     <a class="navbar-brand fs-4 py-2" href="#">MyBookShelf</a>
@@ -35,10 +35,10 @@
                     Genres
                 </a>
                 <div class="dropdown-menu fs-5 py-2" aria-labelledby="navbarDropdown">
-                    {% get_all_books as books %}
-                    {% for book in books %}
-                        {% if book.genre != 'Others' %}
-                            <a class="dropdown-item" href="{% url 'books-by-genre' book.genre %}">{{ book.genre }}</a>
+                    {% get_unique_genres as genres %}
+                    {% for genre in genres %}
+                        {% if genre.genre != 'Others' %}
+                            <a class="dropdown-item" href="{% url 'books-by-genre' genre.genre %}">{{ genre.genre }}</a>
                         {% endif %}
                     {% endfor %}
                     <div class="dropdown-divider"></div>
@@ -67,7 +67,7 @@
 
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+            <button class="btn btn-outline-light my-2 my-sm-0 text-white btn-hover-dark" type="submit">Search</button>
         </form>
     </div>
 </nav>
