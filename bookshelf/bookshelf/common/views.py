@@ -7,6 +7,8 @@ from django.views.generic import TemplateView, DetailView, ListView, CreateView,
 from bookshelf.book.forms import UpdateCommentForm, DeleteCommentForm
 from bookshelf.book.models import Book, Rating, Comment
 from django.contrib import messages
+from django.db.models import Q
+from ..author.models import Author
 from ..mixins import PermissionCheckMixin
 
 
@@ -60,4 +62,23 @@ class PermissionDeniedView(TemplateView):
     template_name = 'common/not_allow_page.html'
 
 
+class SearchResultsView(ListView):
+    template_name = 'common/search.html'
+    queryset = Book.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        query = self.request.GET.get('search-word')
+        if query:
+            books = Book.objects.filter(Q(title__icontains=query)).distinct()
+            authors = Author.objects.filter(
+                Q(first_name__icontains=query) | Q(last_name__icontains=query)
+            ).distinct()
+            print(authors)
+            context['books'] = books
+            context['authors'] = authors
+        else:
+            context['books'] = Book.objects.none()
+            context['authors'] = Author.objects.none()
+        return context
 
