@@ -61,10 +61,12 @@
                                         </div>
 
                                         <div class="d-flex align-items-center flex-column flex-md-row">
-                                            {% if comment.user == user %}
+                                            {% if comment.user == user or user.is_superuser or user.is_staff %}
                                                 <div class="btn-group mb-2 mb-md-0">
+                                                    {% if comment.user == user %}
                                                     <a href="{% url 'edit_comment' comment.id %}"
                                                        class="btn btn-sm btn-light">Edit</a>
+                                                    {% endif %}
                                                     <a href="{% url 'delete_comment' comment.id %}"
                                                        class="btn btn-sm btn-light">Delete</a>
                                                 </div>
