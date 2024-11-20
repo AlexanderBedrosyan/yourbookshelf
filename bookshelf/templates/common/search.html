@@ -1,0 +1,77 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+    {% include 'common/link.html' %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+{% include 'common/nav.html' %}
+
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h2 class="display-4">Search Results</h2>
+        <p class="text-muted">Explore books and authors matching your search</p>
+    </div>
+
+    {% if books or authors %}
+        <div class="row justify-content-center">
+            <!-- Books Section -->
+            {% if books %}
+                <div class="col-lg-6 col-md-8 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-success text-white">
+                            <h4 class="mb-0 text-center">Books</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                {% for book in books %}
+                                    <li class="list-group-item text-center">
+                                        <a href="{% url 'book-details' book.id %}" class="text-decoration-none text-blue">
+                                            <strong>{{ book.title }}</strong>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Authors Section -->
+            {% if authors %}
+                <div class="col-lg-6 col-md-8 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-success text-white text-center">
+                            <h4 class="mb-0">Authors</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                {% for author in authors %}
+                                    <li class="list-group-item text-center">
+                                        <a href="{% url 'author-details' author.id %}" class="text-decoration-none text-blue">
+                                            <strong>{{ author.get_full_name }}</strong>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning text-center" role="alert">
+            <strong>No results found!</strong> Try searching with a different keyword.
+        </div>
+    {% endif %}
+</div>
+
+
+
+{% include 'common/footer.html' %}
+</body>
+</html>
