@@ -28,6 +28,13 @@
                             <button type="submit" class="btn btn-info px-4">Add Book</button>
                         </div>
                     </form>
+                    <div class="container mt-5 text-center">
+                        <p id="missing-content">Please make sure to enter the title first. Note that some information
+                            may be missing if the title is not provided.</p>
+                        <form id="wikiForm" class="mt-4">
+                            <button type="submit" class="btn btn-primary">Generate Description</button>
+                        </form>
+                    </div>
                 </div>
 
                 <div class="card-footer text-center">
@@ -39,7 +46,8 @@
 </div>
 
 
-
 {% include 'common/footer.html' %}
+
+<script src="{% static 'javascript/wikipedia_api_books.js' %}"></script>
 </body>
 </html>

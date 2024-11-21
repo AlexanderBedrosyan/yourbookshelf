@@ -16,18 +16,16 @@
                 <li class="nav-item active">
                     <a class="nav-link fs-5 py-2" href="{% url 'add-book' %}">Add Book</a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link fs-5 py-2" href="{% url 'add-author' %}">Add Author</a>
-                </li>
             {% else %}
                 <li class="nav-item active">
                     <a class="nav-link fs-5 py-2" href="{% url 'login' %}">Add Book</a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link fs-5 py-2" href="{% url 'login' %}">Add Author</a>
-                </li>
 
             {% endif %}
+            <li class="nav-item active">
+                <a class="nav-link fs-5 py-2" href="{% url 'authors' %}">Authors</a>
+            </li>
+
             <li class="nav-item active dropdown">
                 <a class="nav-link dropdown-toggle fs-5 py-2" href="#" id="navbarDropdown" role="button"
                    data-toggle="dropdown"
@@ -52,6 +50,9 @@
                 <li class="nav-item active">
                     <a class="nav-link fs-5 py-2" href="{% url 'logout-page' %}">Logout</a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link fs-5 py-2" href="{% url 'report' %}">Report</a>
+                </li>
             {% else %}
                 <li class="nav-item active">
                     <a class="nav-link fs-5 py-2" href="{% url 'login' %}">Login</a>
@@ -67,7 +68,8 @@
 
         <form class="form-inline my-2 my-lg-0" action="{% url 'search-results' %}" method="get">
             {% csrf_token %}
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search-word">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                   name="search-word">
             <button class="btn btn-outline-light my-2 my-sm-0 text-white btn-hover-dark" type="submit">Search</button>
         </form>
     </div>

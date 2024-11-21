@@ -1,0 +1,57 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Authors</title>
+    {% include 'common/link.html' %}
+</head>
+<body>
+{% include 'common/nav.html' %}
+<div class="container mt-4">
+    {% if user.is_authenticated %}
+    <div class="d-flex justify-content-center mb-4">
+        <a href="{% url 'add-author' %}" class="btn btn-secondary btn-lg">Add Author</a>
+    </div>
+    {% endif %}
+
+    <h2 class="text-center mb-4">Our Authors</h2>
+
+    <div class="d-flex flex-column align-items-center" style="margin-bottom: 1.5rem">
+        {% for author in authors %}
+            <div class="card mb-4 shadow-sm" style="width: 100%; max-width: 600px;">
+                <div class="row g-0">
+                    {% if author.picture_url %}
+                        <div class="col-md-4">
+                            <img src="{{ author.picture_url }}" class="img-fluid rounded-start"
+                                 alt="{{ author.get_full_name }}"
+                                 style="height: 150px; object-fit: cover; width: 100%;">
+                        </div>
+                    {% else %}
+                        <div class="col-md-4">
+                            <img src="{% static 'images/no-photo.gif' %}" class="img-fluid rounded-start"
+                                 alt="{{ author.get_full_name }}"
+                                 style="height: 150px; object-fit: cover; width: 100%;">
+                        </div>
+                    {% endif %}
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ author.get_full_name }}</h5>
+                            <p class="card-text text-muted">
+                                {{ author.bio|truncatewords:20 }}
+                            </p>
+                            <a href="{% url 'author-details' author.id %}" class="btn btn-outline-secondary">View
+                                Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% include 'common/footer.html' %}
+</body>
+</html>
