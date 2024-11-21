@@ -8,6 +8,9 @@ from bookshelf.book.forms import UpdateCommentForm, DeleteCommentForm
 from bookshelf.book.models import Book, Rating, Comment
 from django.contrib import messages
 from django.db.models import Q
+
+from .forms import CreateReportForm
+from .models import Report
 from ..author.models import Author
 from ..mixins import PermissionCheckMixin
 
@@ -74,11 +77,25 @@ class SearchResultsView(ListView):
             authors = Author.objects.filter(
                 Q(first_name__icontains=query) | Q(last_name__icontains=query)
             ).distinct()
-            print(authors)
             context['books'] = books
             context['authors'] = authors
         else:
             context['books'] = Book.objects.none()
             context['authors'] = Author.objects.none()
         return context
+
+
+class CreateReportView(LoginRequiredMixin, CreateView):
+    form_class = CreateReportForm
+    template_name = 'common/report.html'
+    model = Report
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        if not form.is_valid():
+            print(form.errors)
+            return self.form_invalid(form)
+
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 

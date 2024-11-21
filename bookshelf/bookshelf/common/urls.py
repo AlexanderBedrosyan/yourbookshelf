@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import HomePageView, AddCommentView, EditCommentView, DeleteCommentView, FrontPageView, PermissionDeniedView, SearchResultsView
+from .views import HomePageView, AddCommentView, EditCommentView, DeleteCommentView, FrontPageView, PermissionDeniedView, SearchResultsView, CreateReportView
 
 urlpatterns = [
     path('home/', HomePageView.as_view(), name='home'),
@@ -9,4 +9,5 @@ urlpatterns = [
     path('', FrontPageView.as_view(), name='front-page'),
     path('permission_denied/', PermissionDeniedView.as_view(), name='permission-denied'),
     path('search/', SearchResultsView.as_view(), name='search-results'),
+    path('report/', CreateReportView.as_view(), name='report'),
 ]
