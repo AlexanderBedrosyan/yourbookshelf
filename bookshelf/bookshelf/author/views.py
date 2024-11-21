@@ -1,9 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, UpdateView, DeleteView, CreateView
+from django.views.generic import DetailView, UpdateView, DeleteView, CreateView, ListView
 from bookshelf.author.forms import UpdateAuthorForm, CreateAuthorForm
 from bookshelf.author.models import Author
+from ..common.forms import CreateReportForm
+from ..common.models import Report
 from ..mixins import PermissionCheckMixin
 
 
@@ -51,3 +53,12 @@ class CreateAuthorView(CreateView):
 
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+class ListAuthorsView(ListView):
+    model = Author
+    template_name = 'author/authors.html'
+    context_object_name = 'authors'
+
+    def get_queryset(self):
+        return Author.objects.order_by('first_name')
