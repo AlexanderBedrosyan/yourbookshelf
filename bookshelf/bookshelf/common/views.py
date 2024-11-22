@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models.functions import Concat
 from django.http import JsonResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -7,8 +8,8 @@ from django.views.generic import TemplateView, DetailView, ListView, CreateView,
 from bookshelf.book.forms import UpdateCommentForm, DeleteCommentForm
 from bookshelf.book.models import Book, Rating, Comment
 from django.contrib import messages
-from django.db.models import Q
-
+from django.db.models import Q, F, Value, CharField
+import random
 from .forms import CreateReportForm
 from .models import Report
 from ..author.models import Author
@@ -98,4 +99,39 @@ class CreateReportView(LoginRequiredMixin, CreateView):
 
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+class QuizGameView(TemplateView):
+    template_name = 'common/quiz.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        books = Book.objects.all()
+
+        random_book = random.choice(books)
+        question = f'Кой е автор на книгата "{random_book.title}"?'
+        correct_answer = random_book.author
+        unique_authors = list(Author.objects.annotate(
+                full_name=Concat(
+                    F('first_name'),
+                    Value(' '),
+                    F('last_name'),
+                    output_field=CharField()
+                )
+            ).exclude(full_name=correct_answer).values_list('full_name', flat=True).distinct())
+        all_answers = [correct_answer]
+
+        while len(all_answers) < 3:
+            wrong_answer = random.choice(unique_authors)
+
+            if wrong_answer not in all_answers:
+                all_answers.append(wrong_answer)
+                unique_authors.remove(wrong_answer)
+
+        context['question'] = question
+        context['answers'] = all_answers
+        context['correct_answer'] = correct_answer
+
+        return context
 
