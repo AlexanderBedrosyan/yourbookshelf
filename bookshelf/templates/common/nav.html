@@ -43,9 +43,12 @@
                     <a class="dropdown-item" href="{% url 'books-by-genre' 'Others' %}">Others</a>
                 </div>
             </li>
+            {% if user.is_authenticated %}
             <li class="nav-item active">
                 <a class="nav-link fs-5 py-2" href="{% url 'quiz' %}">Quiz</a>
             </li>
+            {% endif %}
+        
             {% if user.is_authenticated %}
                 <li class="nav-item active">
                     <a class="nav-link fs-5 py-2" href="{% url 'logout-page' %}">Logout</a>
