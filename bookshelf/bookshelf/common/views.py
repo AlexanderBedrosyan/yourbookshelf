@@ -13,7 +13,7 @@ import random
 from .forms import CreateReportForm
 from .models import Report
 from ..author.models import Author
-from ..mixins import PermissionCheckMixin
+from ..mixins import PermissionCheckMixin, MinUniqueAuthors, MinBooksNeeded
 
 
 # Create your views here.
@@ -101,7 +101,7 @@ class CreateReportView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class QuizGameView(TemplateView):
+class QuizGameView(MinUniqueAuthors, MinBooksNeeded, TemplateView):
     template_name = 'common/quiz.html'
 
     def get_context_data(self, **kwargs):
