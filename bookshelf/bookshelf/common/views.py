@@ -11,9 +11,10 @@ from django.contrib import messages
 from django.db.models import Q, F, Value, CharField
 import random
 from .forms import CreateReportForm
-from .models import Report
+from .models import Report, QuizResults
 from ..author.models import Author
 from ..mixins import PermissionCheckMixin, MinUniqueAuthors, MinBooksNeeded
+import json
 
 
 # Create your views here.
@@ -101,7 +102,7 @@ class CreateReportView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class QuizGameView(MinUniqueAuthors, MinBooksNeeded, TemplateView):
+class QuizGameView(LoginRequiredMixin, MinUniqueAuthors, MinBooksNeeded, TemplateView):
     template_name = 'common/quiz.html'
 
     def get_context_data(self, **kwargs):
@@ -131,7 +132,64 @@ class QuizGameView(MinUniqueAuthors, MinBooksNeeded, TemplateView):
 
         context['question'] = question
         context['answers'] = all_answers
-        context['correct_answer'] = correct_answer
+        context['book_id'] = random_book.id
 
         return context
 
+
+class SubmitAnswerView(LoginRequiredMixin, MinUniqueAuthors, MinBooksNeeded, View):
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.body)
+
+        user_answer = data.get('user_answer')
+        book_id = data.get('book_id')
+        book = Book.objects.get(id=book_id)
+
+        user = request.user
+
+        try:
+            quiz_result = QuizResults.objects.get(user=user)
+        except QuizResults.DoesNotExist:
+            quiz_result = QuizResults(user=user, points=0)
+
+        if user_answer == str(book.author.get_full_name()):
+            quiz_result.points += 1
+            quiz_result.save()
+            return JsonResponse({'correct': True, 'new_score': quiz_result.points})
+        else:
+            return JsonResponse({'correct': False})
+
+
+class NextQuestionView(View):
+    def get(self, request, *args, **kwargs):
+        books = Book.objects.all()
+
+        random_book = random.choice(books)
+        question = f'Кой е автор на книгата "{random_book.title}"?'
+        correct_answer = str(random_book.author)
+
+        unique_authors = list(Author.objects.annotate(
+            full_name=Concat(
+                F('first_name'),
+                Value(' '),
+                F('last_name'),
+                output_field=CharField()
+            )
+        ).exclude(full_name=correct_answer).values_list('full_name', flat=True).distinct())
+
+        all_answers = [correct_answer]
+
+        while len(all_answers) < 3:
+            wrong_answer = random.choice(unique_authors)
+
+            if wrong_answer not in all_answers:
+                all_answers.append(wrong_answer)
+                unique_authors.remove(wrong_answer)
+
+        random.shuffle(all_answers)
+
+        return JsonResponse({
+            'question': question,
+            'answers': all_answers,
+            'book_id': random_book.id
+        })
