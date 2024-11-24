@@ -11,7 +11,47 @@
 <body>
 {% include 'common/nav.html' %}
 
+{#<div class="container mt-5">#}
+{#    <div class="card mb-4">#}
+{#        <div class="card-body">#}
+{#            <div class="row">#}
+{#                <div class="col-md-4 d-flex justify-content-center align-items-center">#}
+{#                    <img src="{{ book.picture_url }}" class="img-fluid rounded" alt="Book Image"#}
+{#                         style="max-width: 100%; max-height: 200px; object-fit: cover;">#}
+{#                </div>#}
+{##}
+{#                <div class="col-md-8 d-flex flex-column align-items-center justify-content-center">#}
+{#                    <h5>{{ book.title }}</h5>#}
+{#                    <small><a href="{% url 'author-details' book.author.id %}"#}
+{#                              class="text-primary text-decoration-underline">{{ book.author.get_full_name }}</a></small>#}
+{#                    <p class="card-text mt-3 text-center">{{ book.description }}</p>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#{% if user.is_authenticated %}#}
+{#    <form class="col-md-8 d-flex flex-column align-items-center justify-content-center" id="update-status-form"#}
+{#          method="POST" action="">#}
+{#        {% csrf_token %}#}
+{#        <div class="form-group">#}
+{#            <label for="statusSelect">Change Status:</label>#}
+{#            <select id="statusSelect" name="status" class="form-select">#}
+{#                {% for choice_value, choice_label in book.status_choices %}#}
+{#                    <option value="{{ choice_value }}"#}
+{#                            {% if current_status == choice_value %}selected{% endif %}>#}
+{#                        {{ choice_label }}#}
+{#                    </option>#}
+{#                {% endfor %}#}
+{#            </select>#}
+{#        </div>#}
+{#        <button type="submit" class="btn btn-primary mt-3">Save</button>#}
+{#    </form>#}
+{#{% endif %}#}
+
 <div class="container mt-5">
+    <!-- Карта с информация за книгата -->
     <div class="card mb-4">
         <div class="card-body">
             <div class="row">
@@ -19,18 +59,45 @@
                     <img src="{{ book.picture_url }}" class="img-fluid rounded" alt="Book Image"
                          style="max-width: 100%; max-height: 200px; object-fit: cover;">
                 </div>
-
-                <div class="col-md-8 d-flex flex-column align-items-center justify-content-center">
-                    <h5>{{ book.title }}</h5>
-                    <small><a href="{% url 'author-details' book.author.id %}"
-                              class="text-primary text-decoration-underline">{{ book.author.get_full_name }}</a></small>
-                    <p class="card-text mt-3 text-center">{{ book.description }}</p>
+                <div class="col-md-8">
+                    <h5 class="card-title text-center">{{ book.title }}</h5>
+                    <p class="text-center mb-2">
+                        <small>
+                            <a href="{% url 'author-details' book.author.id %}"
+                               class="text-primary text-decoration-underline">
+                                {{ book.author.get_full_name }}
+                            </a>
+                        </small>
+                    </p>
+                    <p class="card-text text-center">{{ book.description }}</p>
                 </div>
-
             </div>
         </div>
     </div>
-</div>
+
+
+    {% if user.is_authenticated %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title text-center">Update Your Status</h5>
+                <form id="update-status-form" method="POST" action="" class="d-flex flex-column align-items-center">
+                    {% csrf_token %}
+                    <div class="text-center form-group w-100 mb-3">
+                    <button type="submit" class="btn btn-secondary w-20">Save Status</button>
+                        <label for="statusSelect" class="form-label">Select a Status:</label>
+                        <select id="statusSelect" name="status" class="form-select">
+                            {% for choice_value, choice_label in status_choices %}
+                                <option value="{{ choice_value }}"
+                                        {% if current_status == choice_value %}selected{% endif %}>
+                                    {{ choice_label }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% endif %}
 </div>
 
 
