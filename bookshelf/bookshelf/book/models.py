@@ -4,7 +4,7 @@ from django.db.models import Avg
 from bookshelf.accounts.models import CustomerModel
 from bookshelf.author.models import Author
 from .validators import UpperValueValidator
-from .genre_choices import GenreChoices
+from .choices import GenreChoices, BookStatusChoices
 
 
 # Create your models here.
@@ -88,3 +88,14 @@ class Rating(models.Model):
         unique_together = ('book', 'user')
 
 
+class UserBookStatus(models.Model):
+    user = models.ForeignKey(to=CustomerModel, on_delete=models.CASCADE, related_name="book_statuses")
+    book = models.ForeignKey(to=Book, on_delete=models.CASCADE, related_name="user_statuses")
+    status = models.CharField(
+        max_length=50,
+        choices=BookStatusChoices.choices,
+        default=BookStatusChoices.NONE
+    )
+
+    class Meta:
+        unique_together = ('user', 'book')

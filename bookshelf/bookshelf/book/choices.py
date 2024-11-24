@@ -15,3 +15,10 @@ class GenreChoices(models.TextChoices):
     PSYCHOLOGY = 'Psychology', 'Psychology'
     NONFICTION = 'Nonfiction', 'Nonfiction'
     OTHERS = 'Others', 'Others'
+
+
+class BookStatusChoices(models.TextChoices):
+    WANT_TO_READ = 'Want to Read', 'Want to Read'
+    CURRENTLY_READING = 'Currently Reading', 'Currently Reading'
+    READ = 'Read', 'Read'
+    NONE = 'None', 'None'
