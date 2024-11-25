@@ -1,0 +1,185 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Book</title>
+    {% include 'common/link.html' %}
+    <link rel="stylesheet" href="{% static 'css/errors.css' %}">
+    <link rel="stylesheet" href="{% static 'css/add-book.css' %}">
+</head>
+<body>
+{% include 'common/nav.html' %}
+
+{#<div class="container mt-5">#}
+{#    <div class="row">#}
+{#        <div class="col-md-6 mb-4">#}
+{#            <div class="card shadow">#}
+{#                <div class="card-header bg-secondary text-white">#}
+{#                    <h5 class="card-title text-center">Your Uploaded Books</h5>#}
+{#                </div>#}
+{#                <div class="card-body">#}
+{#                    {% if user.books.all %}#}
+{#                        <ul class="list-group">#}
+{#                            {% for book in user.books.all %}#}
+{#                                <li class="list-group-item">#}
+{#                                    <div class="d-flex align-items-center" style="margin-left: 20px">#}
+{#                                        <img src="{{ book.picture_url }}" alt="Book Image" class="rounded me-3"#}
+{#                                             style="width: 80px; height: 120px; object-fit: cover;">#}
+{#                                        <div style="margin-left: 20px">#}
+{#                                            <a href="{% url 'book-details' book.id %}"><strong#}
+{#                                                    style="color:black">{{ book.title }}</strong></a><br>#}
+{#                                            <small>by <a#}
+{#                                                    href="{% url 'author-details' book.author.id %}">{{ book.author.get_full_name }}</a></small>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </li>#}
+{#                            {% endfor %}#}
+{#                        </ul>#}
+{#                    {% else %}#}
+{#                        <p class="text-center text-muted">You haven't uploaded any books yet.</p>#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#        <div class="col-md-6 mb-4">#}
+{#            <div class="card shadow">#}
+{#                <div class="card-header text-white" style="background-color: lightslategrey">#}
+{#                    <h5 class="card-title text-center">Books with Your Status</h5>#}
+{#                </div>#}
+{#                <div class="card-body">#}
+{#                    {% if user.book_statuses %}#}
+{#                        <ul class="list-group">#}
+{#                            {% for status in user.book_statuses.all %}#}
+{#                                <li class="list-group-item">#}
+{#                                    <div class="d-flex align-items-center" style="margin-left: 20px">#}
+{#                                        <img src="{{ status.book.picture_url }}" alt="Book Image" class="rounded me-3"#}
+{#                                             style="width: 80px; height: 120px; object-fit: cover;">#}
+{#                                        <div style="margin-left: 20px">#}
+{#                                            <strong>{{ status.book.title }}</strong><br>#}
+{#                                            <small>Status: {{ status.get_status_display }}</small><br>#}
+{#                                            <small>by <a#}
+{#                                                    href="{% url 'author-details' status.book.author.id %}">{{ status.book.author.get_full_name }}</a></small>#}
+{##}
+{#                                            <form id="update-status-form" method="POST"#}
+{#                                                  action="{% url 'book-status' status.book.id %}" class="mt-2">#}
+{#                                                {% csrf_token %}#}
+{#                                                <label for="statusSelect" class="form-label">Select a Status:</label>#}
+{#                                                <div class="d-flex">#}
+{#                                                    <select id="statusSelect" name="status" class="form-select me-2">#}
+{#                                                        {% for choice_value, choice_label in status_choices %}#}
+{#                                                            <option value="{{ choice_value }}"#}
+{#                                                                    {% if current_status == choice_value %}selected{% endif %}>#}
+{#                                                                {{ choice_label }}#}
+{#                                                            </option>#}
+{#                                                        {% endfor %}#}
+{#                                                    </select>#}
+{#                                                    <button type="submit" class="btn btn-secondary">Save Status</button>#}
+{#                                                </div>#}
+{#                                            </form>#}
+{##}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </li>#}
+{#                            {% endfor %}#}
+{#                        </ul>#}
+{#                    {% else %}#}
+{#                        <p class="text-center text-muted">You haven't added any statuses to books yet.</p>#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+<div class="container mt-5">
+    <div class="row">
+        <!-- First Column: Your Uploaded Books -->
+        <div class="col-lg-6 col-md-12 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="card-title text-center">Your Uploaded Books</h5>
+                </div>
+                <div class="card-body">
+                    {% if user.books.all %}
+                        <ul class="list-group">
+                            {% for book in user.books.all %}
+                                <li class="list-group-item">
+                                    <div class="d-flex align-items-center" style="margin-left: 20px">
+                                        <img src="{{ book.picture_url }}" alt="Book Image" class="rounded me-3"
+                                             style="width: 80px; height: 120px; object-fit: cover;">
+                                        <div style="margin-left: 20px">
+                                            <a href="{% url 'book-details' book.id %}">
+                                                <strong style="color:black">{{ book.title }}</strong>
+                                            </a><br>
+                                            <small>by <a
+                                                    href="{% url 'author-details' book.author.id %}">{{ book.author.get_full_name }}</a></small>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-center text-muted">You haven't uploaded any books yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Column: Books with Your Status -->
+        <div class="col-lg-6 col-md-12 mb-4">
+            <div class="card shadow">
+                <div class="card-header text-white" style="background-color: lightslategrey">
+                    <h5 class="card-title text-center">Books with Your Status</h5>
+                </div>
+                <div class="card-body">
+                    {% if user.book_statuses %}
+                        <ul class="list-group">
+                            {% for status in user.book_statuses.all %}
+                                <li class="list-group-item">
+                                    <div class="d-flex align-items-center" style="margin-left: 20px">
+                                        <img src="{{ status.book.picture_url }}" alt="Book Image" class="rounded me-3"
+                                             style="width: 80px; height: 120px; object-fit: cover;">
+                                        <div style="margin-left: 20px">
+                                            <strong>{{ status.book.title }}</strong><br>
+                                            <small>Status: {{ status.get_status_display }}</small><br>
+                                            <small>by <a
+                                                    href="{% url 'author-details' status.book.author.id %}">{{ status.book.author.get_full_name }}</a></small>
+
+                                            <form id="update-status-form" method="POST"
+                                                  action="{% url 'book-status' status.book.id %}" class="mt-2">
+                                                {% csrf_token %}
+                                                <label for="statusSelect" class="form-label">Select a Status:</label>
+                                                <div class="d-flex">
+                                                    <select id="statusSelect" name="status" class="form-select me-2">
+                                                        {% for choice_value, choice_label in status_choices %}
+                                                            <option value="{{ choice_value }}"
+                                                                    {% if current_status == choice_value %}selected{% endif %}>
+                                                                {{ choice_label }}
+                                                            </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <button type="submit" class="btn btn-secondary">Save Status</button>
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-center text-muted">You haven't added any statuses to books yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% include 'common/footer.html' %}
+
+</body>
+</html>
