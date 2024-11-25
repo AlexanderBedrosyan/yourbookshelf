@@ -1,7 +1,10 @@
-from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, ListView, CreateView
+from django.views import View
+from django.views.generic import DetailView, ListView, CreateView, UpdateView
 
+from bookshelf.accounts.models import CustomerModel
 from bookshelf.book.choices import BookStatusChoices
 from bookshelf.book.forms import CreateBookForm
 from bookshelf.book.models import Book, UserBookStatus
@@ -55,3 +58,32 @@ class BookDetailsView(DetailView):
 
         return context
 
+
+class UpdateBookStatusView(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        book = get_object_or_404(Book, id=kwargs.get('id'))
+        status = request.POST.get('status')
+
+        if request.user.is_authenticated:
+            user_status, created = UserBookStatus.objects.get_or_create(user=request.user, book=book)
+            user_status.status = status
+            user_status.save()
+
+        return redirect('home')
+
+
+class MyBookShelfView(LoginRequiredMixin, DetailView):
+    model = CustomerModel
+    pk_url_kwarg = 'id'
+    template_name = 'book/mybookshelf.html'
+    context_object_name = 'user'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        user = self.request.user
+
+        context['status_choices'] = BookStatusChoices.choices
+
+        return context
