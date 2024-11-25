@@ -14,7 +14,8 @@ class Book(models.Model):
         to=CustomerModel,
         blank=False,
         null=False,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='books'
     )
     author = models.ForeignKey(
         to=Author,
