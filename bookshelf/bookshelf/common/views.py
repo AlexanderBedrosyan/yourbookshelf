@@ -8,7 +8,7 @@ from django.views.generic import TemplateView, DetailView, ListView, CreateView,
 from bookshelf.book.forms import UpdateCommentForm, DeleteCommentForm
 from bookshelf.book.models import Book, Rating, Comment
 from django.contrib import messages
-from django.db.models import Q, F, Value, CharField
+from django.db.models import Q, F, Value, CharField, Avg
 import random
 from .forms import CreateReportForm
 from .models import Report, QuizResults
@@ -48,6 +48,29 @@ class AddCommentView(LoginRequiredMixin, View):
         # Връщаме грешка, ако данните са невалидни.
         return JsonResponse({'error': 'Invalid data'}, status=400)
 
+
+class AddRatingView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        book_id = kwargs.get("book_id")
+        rating_value = request.POST.get("rating")
+
+        if not rating_value or not rating_value.isdigit() or not (1 <= int(rating_value) <= 5):
+            return JsonResponse({'error': 'Invalid rating value'}, status=400)
+
+        book = get_object_or_404(Book, id=book_id)
+
+        rating, created = Rating.objects.update_or_create(
+            book=book,
+            user=request.user,
+            defaults={'rating': int(rating_value)}
+        )
+
+        new_average_rating = book.ratings.aggregate(Avg('rating'))['rating__avg'] or 0
+
+        return JsonResponse({
+            'message': 'Rating added successfully',
+            'new_average_rating': round(new_average_rating, 2)
+        })
 
 
 class EditCommentView(LoginRequiredMixin, PermissionCheckMixin, UpdateView):
