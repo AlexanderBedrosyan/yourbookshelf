@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.functions import Concat
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -36,9 +36,18 @@ class AddCommentView(LoginRequiredMixin, View):
         text = request.POST.get("text")
 
         if text:
-            Comment.objects.create(user=request.user, book=book, text=text)
+            comment = Comment.objects.create(user=request.user, book=book, text=text)
+            # Винаги връщаме JSON отговор.
+            return JsonResponse({
+                'id': comment.id,
+                'text': comment.text,
+                'username': comment.user.username,
+                'created_at': comment.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            })
 
-        return redirect(reverse_lazy('home'))
+        # Връщаме грешка, ако данните са невалидни.
+        return JsonResponse({'error': 'Invalid data'}, status=400)
+
 
 
 class EditCommentView(LoginRequiredMixin, PermissionCheckMixin, UpdateView):
