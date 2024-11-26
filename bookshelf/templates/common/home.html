@@ -83,7 +83,7 @@
                     </ul>
 
                     {% if user.is_authenticated %}
-                        <form method="post" action="{% url 'add_comment' book.id %}">
+                        <form method="post" id="comment-{{ book.id }}" action="{% url 'add_comment' book.id %}">
                             {% csrf_token %}
                             <div class="input-group">
                                 <input type="text" name="text" class="form-control" placeholder="Add a comment"
@@ -104,5 +104,6 @@
 
 
 {% include 'common/footer.html' %}
+<script src="{% static 'javascript/home_js.js' %}"></script>
 </body>
 </html>
