@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (HomePageView, AddCommentView, EditCommentView, DeleteCommentView, FrontPageView, PermissionDeniedView,
-                    QuizGameView, SearchResultsView, CreateReportView, SubmitAnswerView, NextQuestionView)
+                    QuizGameView, SearchResultsView, CreateReportView, SubmitAnswerView, NextQuestionView, AddRatingView)
 
 urlpatterns = [
     path('home/', HomePageView.as_view(), name='home'),
@@ -14,4 +14,5 @@ urlpatterns = [
     path('quiz/', QuizGameView.as_view(), name='quiz'),
     path('quiz/submit_answer/', SubmitAnswerView.as_view(), name='submit-answer'),
     path('quiz/next_question/', NextQuestionView.as_view(), name='next-question'),
+    path('rate_book/<int:book_id>/', AddRatingView.as_view(), name='next-question'),
 ]

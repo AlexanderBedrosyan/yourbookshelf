@@ -50,13 +50,50 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    const ratingElements = document.querySelectorAll('.rating');
 
+    ratingElements.forEach(rating => {
+        const bookId = rating.getAttribute('data-book-id');
+        const stars = rating.querySelectorAll('.rating-star');
 
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const ratingValue = star.getAttribute('data-value');
+                const url = `/rate_book/${bookId}/`;
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
+                fetch(url, {
+                    method: 'POST',
+                    body: new URLSearchParams({ rating: ratingValue }),
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to submit rating');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const averageRatingElement = document.getElementById(`average-rating-${bookId}`);
+                    if (averageRatingElement) {
+                        averageRatingElement.textContent = data.new_average_rating;
+                    }
 
-
-
-
-
-
-
+                    // Highlight selected stars
+                    stars.forEach(s => {
+                        s.classList.toggle('text-warning', s.getAttribute('data-value') <= ratingValue);
+                        s.classList.toggle('text-muted', s.getAttribute('data-value') > ratingValue);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while submitting your rating.');
+                });
+            });
+        });
+    });
+});
