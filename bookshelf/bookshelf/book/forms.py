@@ -10,6 +10,31 @@ class BaseBookForm(forms.ModelForm):
         exclude = ['approved', 'user']
 
 
+class UpdateBookForm(BaseBookForm):
+    class Meta(BaseBookForm.Meta):
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter the title of the book'
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 5,
+                'placeholder': 'Enter a description (max 2000 characters)'
+            }),
+            'picture_url': forms.URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter the URL for the book picture'
+            }),
+            'genre': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+            'author': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+        }
+
+
 class BaseCommentForm(forms.ModelForm):
     class Meta:
         model = Comment

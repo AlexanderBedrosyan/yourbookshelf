@@ -2,12 +2,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import DetailView, ListView, CreateView, UpdateView
-
+from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 from bookshelf.accounts.models import CustomerModel
 from bookshelf.book.choices import BookStatusChoices
-from bookshelf.book.forms import CreateBookForm
+from bookshelf.book.forms import CreateBookForm, UpdateBookForm
 from bookshelf.book.models import Book, UserBookStatus
+from bookshelf.mixins import PermissionCheckMixin
 
 
 # Create your views here.
@@ -87,3 +87,20 @@ class MyBookShelfView(LoginRequiredMixin, DetailView):
         context['status_choices'] = BookStatusChoices.choices
 
         return context
+
+
+class EditBookView(LoginRequiredMixin, PermissionCheckMixin, UpdateView):
+    template_name = 'book/update_book.html'
+    pk_url_kwarg = 'id'
+    model = Book
+    form_class = UpdateBookForm
+
+    def get_success_url(self):
+        return reverse_lazy('book-details', kwargs={'id': self.object.id})
+
+
+class DeleteBookView(LoginRequiredMixin, PermissionCheckMixin, DeleteView):
+    template_name = 'book/delete_book.html'
+    model = Book
+    pk_url_kwarg = 'id'
+    success_url = reverse_lazy('home')
