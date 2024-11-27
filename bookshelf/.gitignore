@@ -1,0 +1,4 @@
+*.pyc
+__pycache__/
+bookshelf/static/images/book_world.gif
+bookshelf/.env
