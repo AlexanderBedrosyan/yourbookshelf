@@ -100,3 +100,8 @@ class UserBookStatus(models.Model):
 
     class Meta:
         unique_together = ('user', 'book')
+        verbose_name = "User Book Status"
+        verbose_name_plural = "User Book Statuses"
+
+    def __str__(self):
+        return f"{self.user.username} status on book - {self.book.title}"
