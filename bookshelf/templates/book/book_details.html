@@ -53,6 +53,10 @@
                                 </option>
                             {% endfor %}
                         </select>
+                        {% if request.user == book.user %}
+                            <a href="{% url 'edit-book' book.id %}" class="btn btn-secondary">Edit</a>
+                            <a href="{% url 'delete-book' book.id %}" class="btn btn-danger">Delete</a>
+                        {% endif %}
                     </div>
                 </form>
             </div>

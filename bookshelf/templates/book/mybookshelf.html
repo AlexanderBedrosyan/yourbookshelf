@@ -46,7 +46,7 @@
             </div>
         </div>
 
-        <!-- Second Card: Books with Your Status -->
+
         <div class="col-12 mb-4">
             <div class="card shadow">
                 <div class="card-header text-white" style="background-color: lightslategrey">
@@ -61,7 +61,9 @@
                                         <img src="{{ status.book.picture_url }}" alt="Book Image" class="rounded me-3"
                                              style="width: 80px; height: 120px; object-fit: cover;">
                                         <div style="margin-left: 20px">
-                                            <strong>{{ status.book.title }}</strong><br>
+                                        <a href="{% url 'book-details' status.book.id %}">
+                                                <strong style="color:black">{{ status.book.title }}</strong>
+                                            </a><br>
                                             <small>Status: {{ status.get_status_display }}</small><br>
                                             <small>by <a
                                                     href="{% url 'author-details' status.book.author.id %}">{{ status.book.author.get_full_name }}</a></small>
