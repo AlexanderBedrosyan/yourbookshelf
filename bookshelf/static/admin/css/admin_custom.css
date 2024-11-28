@@ -6,6 +6,15 @@ body {
     box-sizing: border-box;
 }
 
+
+#changelist-form > div.actions {
+    width: fit-content;
+}
+
+#changelist-form > p {
+    width: fit-content;
+}
+
 #content-main {
     border-radius: 10px;
     background-color: #ffffff;

@@ -31,7 +31,7 @@ class HomePageView(ListView):
 
 class AddCommentView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
-        book_id = kwargs.get("book_id")
+        book_id = kwargs.get("pk")
         book = get_object_or_404(Book, id=book_id)
         text = request.POST.get("text")
 

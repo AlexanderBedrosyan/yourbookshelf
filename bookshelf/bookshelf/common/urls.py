@@ -1,12 +1,14 @@
-from django.urls import path
+from django.urls import path, include
 from .views import (HomePageView, AddCommentView, EditCommentView, DeleteCommentView, FrontPageView, PermissionDeniedView,
                     QuizGameView, SearchResultsView, CreateReportView, SubmitAnswerView, NextQuestionView, AddRatingView)
 
 urlpatterns = [
     path('home/', HomePageView.as_view(), name='home'),
-    path('add_comment/<int:book_id>/', AddCommentView.as_view(), name='add_comment'),
-    path('edit_comment/<int:pk>/', EditCommentView.as_view(), name='edit_comment'),
-    path('delete_comment/<int:pk>/', DeleteCommentView.as_view(), name='delete_comment'),
+    path('<int:pk>/', include([
+        path('add_comment/', AddCommentView.as_view(), name='add_comment'),
+        path('edit_comment/', EditCommentView.as_view(), name='edit_comment'),
+        path('delete_comment/', DeleteCommentView.as_view(), name='delete_comment'),
+        ])),
     path('', FrontPageView.as_view(), name='front-page'),
     path('permission_denied/', PermissionDeniedView.as_view(), name='permission-denied'),
     path('search/', SearchResultsView.as_view(), name='search-results'),
@@ -14,5 +16,5 @@ urlpatterns = [
     path('quiz/', QuizGameView.as_view(), name='quiz'),
     path('quiz/submit_answer/', SubmitAnswerView.as_view(), name='submit-answer'),
     path('quiz/next_question/', NextQuestionView.as_view(), name='next-question'),
-    path('rate_book/<int:book_id>/', AddRatingView.as_view(), name='next-question'),
+    path('rate_book/<int:book_id>/', AddRatingView.as_view(), name='rate-book'),
 ]
