@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Single Report</title>
+    {% include 'common/link.html' %}
+</head>
+<body>
+{% include 'common/nav.html' %}
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-secondary text-white">
+            <h2 class="mb-0">Report issue at {{ object.create_at }}</h2>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                
+                {{ form.as_div }}
+                
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="btn btn-success me-2" style="margin-right: 1.5rem">Save the changes</button>
+                    <a href="{% url 'reports' %}" class="btn btn-secondary">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% include 'common/footer.html' %}
+</body>
+</html>
