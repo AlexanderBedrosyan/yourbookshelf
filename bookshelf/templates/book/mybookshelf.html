@@ -1,10 +1,11 @@
 {% load static %}
+{% load is_not_none %}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add Book</title>
+    <title>My Book Shelf</title>
     {% include 'common/link.html' %}
     <link rel="stylesheet" href="{% static 'css/errors.css' %}">
     <link rel="stylesheet" href="{% static 'css/add-book.css' %}">
@@ -53,7 +54,7 @@
                     <h5 class="card-title text-center">Books with Your Status</h5>
                 </div>
                 <div class="card-body">
-                    {% if user.book_statuses %}
+                    {% if user.book_statuses.all and user.book_statuses.all|is_not_none %}
                         <ul class="list-group">
                             {% for status in user.book_statuses.all %}
                                 <li class="list-group-item">
