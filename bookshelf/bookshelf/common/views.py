@@ -10,10 +10,11 @@ from bookshelf.book.models import Book, Rating, Comment
 from django.contrib import messages
 from django.db.models import Q, F, Value, CharField, Avg
 import random
-from .forms import CreateReportForm
+from .forms import CreateReportForm, DetailReportForm
 from .models import Report, QuizResults
+from ..accounts.models import CustomerModel
 from ..author.models import Author
-from ..mixins import PermissionCheckMixin, MinUniqueAuthors, MinBooksNeeded
+from ..mixins import PermissionCheckMixin, MinUniqueAuthors, MinBooksNeeded, PermissionOnlyForStaffs
 import json
 
 
@@ -225,3 +226,37 @@ class NextQuestionView(View):
             'answers': all_answers,
             'book_id': random_book.id
         })
+
+
+class ReportsView(LoginRequiredMixin, TemplateView):
+    template_name = 'common/all_reports.html'
+
+    def has_permission(self):
+        return self.request.user.is_superuser or self.request.user.is_staff
+
+    def get(self, request, *args, **kwargs):
+        if not self.has_permission():
+            messages.error(request, "Access denied. You do not have the required permissions to view this page.")
+            return redirect('permission-denied')
+
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        reports = Report.objects.all().order_by('created_at')
+        context['reports'] = reports
+        return context
+
+
+class SingleReportView(LoginRequiredMixin, PermissionOnlyForStaffs, UpdateView):
+    template_name = 'common/single_report.html'
+    pk_url_kwarg = 'id'
+    form_class = DetailReportForm
+    model = Report
+    success_url = reverse_lazy('reports')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'form' not in context:
+            context['form'] = self.form_class(instance=self.object)
+        return context

@@ -86,6 +86,8 @@ class MyBookShelfView(LoginRequiredMixin, DetailView):
 
         context['status_choices'] = BookStatusChoices.choices
 
+        print(user.book_statuses)
+
         return context
 
 

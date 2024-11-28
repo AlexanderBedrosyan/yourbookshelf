@@ -9,6 +9,22 @@ class ReportBaseForm(forms.ModelForm):
         exclude = ['created_at', 'user']
 
 
+class ReportDeleteForm(ReportBaseForm):
+    pass
+
+
+class DetailReportForm(ReportBaseForm):
+    class Meta(ReportBaseForm.Meta):
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'report_text': forms.Textarea(attrs={'class': 'form-control'})
+        }
+
+        labels = {
+            'report_text': 'Report Details'
+        }
+
+
 class CreateReportForm(ReportBaseForm):
     class Meta(ReportBaseForm.Meta):
         widgets = {

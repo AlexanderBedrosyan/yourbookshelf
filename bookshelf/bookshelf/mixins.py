@@ -18,6 +18,17 @@ class PermissionCheckMixin:
         return super().get(request, *args, **kwargs)
 
 
+class PermissionOnlyForStaffs:
+    DENIED_MESSAGE = "Access denied. You do not have the required permissions to view this page."
+
+    def get(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if not (request.user.is_superuser or request.user.is_staff):
+            messages.error(request, self.DENIED_MESSAGE)
+            return redirect('permission-denied')
+        return super().get(request, *args, **kwargs)
+
+
 class MinUniqueAuthors:
     MIN_NEEDED_AUTHORS = 3
 
