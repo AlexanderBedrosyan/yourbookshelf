@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'bookshelf.author',
     'bookshelf.accounts',
     'bookshelf.common',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -143,5 +144,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = reverse_lazy('home')
 LOGOUT_REDIRECT_URL = reverse_lazy('home')
 
-
 AUTH_USER_MODEL = "accounts.CustomerModel"
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+            'rest_framework.renderers.JSONRenderer',
+            'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+}
