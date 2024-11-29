@@ -3,10 +3,13 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from bookshelf.accounts.models import CustomerModel
 from bookshelf.book.choices import BookStatusChoices
 from bookshelf.book.forms import CreateBookForm, UpdateBookForm
 from bookshelf.book.models import Book, UserBookStatus
+from bookshelf.book.serializers import BookSerializer
 from bookshelf.mixins import PermissionCheckMixin
 
 
@@ -86,8 +89,6 @@ class MyBookShelfView(LoginRequiredMixin, DetailView):
 
         context['status_choices'] = BookStatusChoices.choices
 
-        print(user.book_statuses)
-
         return context
 
 
@@ -106,3 +107,11 @@ class DeleteBookView(LoginRequiredMixin, PermissionCheckMixin, DeleteView):
     model = Book
     pk_url_kwarg = 'id'
     success_url = reverse_lazy('home')
+
+
+class BookListApiView(APIView):
+
+    def get(self, request):
+        books = Book.objects.all()
+        serializer = BookSerializer(books, many=True)
+        return Response(serializer.data)

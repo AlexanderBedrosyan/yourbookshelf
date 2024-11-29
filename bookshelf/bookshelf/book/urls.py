@@ -11,4 +11,6 @@ urlpatterns = [
         path('delete_book/', views.DeleteBookView.as_view(), name='delete-book'),
         path('mybookshelf/', views.MyBookShelfView.as_view(), name='mybookshelf'),
         ])),
+] + [
+    path('api/', views.BookListApiView.as_view(), name='book_list_api')
 ]
