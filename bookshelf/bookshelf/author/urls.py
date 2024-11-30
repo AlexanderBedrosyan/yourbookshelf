@@ -9,4 +9,5 @@ urlpatterns = [
         path('edit-author/', views.EditAuthorView.as_view(), name='edit-author'),
         path('delete-author/', views.DeleteAuthorView.as_view(), name='delete-author'),
     ])),
+    path('author_books/', views.AuthorListView.as_view(), name='author-books')
 ]
