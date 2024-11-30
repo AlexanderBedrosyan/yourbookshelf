@@ -3,6 +3,7 @@ import requests
 
 register = template.Library()
 
+
 @register.simple_tag
 def translate_text_to(word):
     url = "https://api.mymemory.translated.net/get"
