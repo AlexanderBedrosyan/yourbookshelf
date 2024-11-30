@@ -1,0 +1,41 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Authors books</title>
+    {% include 'common/link.html' %}
+</head>
+<body>
+
+
+  <div class="container my-5">
+        <h1 class="text-center mb-4">Authors and their Books</h1>
+  
+        <a href="{% url 'home' %}" class="btn btn-primary mb-4">Back to Home</a>
+  
+        <div>
+            {% for author in authors %}
+                <div class="mb-5">
+                    <h3 class="mb-3">{{ author.name }}</h3>
+                
+                    <ul class="list-group">
+                        {% for book in author.books %}
+                            <li class="list-group-item">
+                                <strong>{{ book.title }}</strong><br>
+                                <span class="text-muted">Description: {{ book.description }}</span>
+                            </li>
+                        {% empty %}
+                            <li class="list-group-item text-muted">No books available for this author.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% include 'common/footer.html' %}
+</body>
+</html>

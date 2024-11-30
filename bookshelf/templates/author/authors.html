@@ -12,7 +12,8 @@
 <div class="container mt-4">
     {% if user.is_authenticated %}
     <div class="d-flex justify-content-center mb-4">
-        <a href="{% url 'add-author' %}" class="btn btn-secondary btn-lg">Add Author</a>
+        <a href="{% url 'add-author' %}" class="btn btn-secondary btn-lg mr-3">Add Author</a>
+        <a href="{% url 'author-books' %}" class="btn btn-secondary btn-lg">Show Books</a>
     </div>
     {% endif %}
 
