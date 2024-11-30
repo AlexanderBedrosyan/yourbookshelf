@@ -9,7 +9,6 @@ class BookSerializer(serializers.ModelSerializer):
         model = Book
         fields = ['id', 'title', 'author_full_name', 'description', 'genre']
 
-
     def get_author_full_name(self, obj):
         return obj.author.get_full_name()
 

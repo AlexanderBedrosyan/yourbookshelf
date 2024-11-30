@@ -12,5 +12,5 @@ urlpatterns = [
         path('mybookshelf/', views.MyBookShelfView.as_view(), name='mybookshelf'),
         ])),
 ] + [
-    path('api/', views.BookListApiView.as_view(), name='book_list_api')
+    path('api/', views.BookListApiView.as_view(), name='book_list_api'),
 ]
