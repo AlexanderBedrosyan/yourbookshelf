@@ -212,7 +212,7 @@ class NextQuestionView(View):
 
         all_answers = [correct_answer]
 
-        while len(all_answers) < 3:
+        while len(all_answers) < 3 and unique_authors:
             wrong_answer = random.choice(unique_authors)
 
             if wrong_answer not in all_answers:
