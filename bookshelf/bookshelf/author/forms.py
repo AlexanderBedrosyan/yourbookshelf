@@ -9,7 +9,16 @@ class BaseAuthorForm(forms.ModelForm):
 
 
 class UpdateAuthorForm(BaseAuthorForm):
-    pass
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and not self.initial.get('date_of_birth'):
+            self.initial['date_of_birth'] = self.instance.date_of_birth
+
+    def clean_date_of_birth(self):
+        date_of_birth = self.cleaned_data.get('date_of_birth')
+        if not date_of_birth:
+            raise forms.ValidationError("Date of birth is required.")
+        return date_of_birth
 
 
 class CreateAuthorForm(BaseAuthorForm):

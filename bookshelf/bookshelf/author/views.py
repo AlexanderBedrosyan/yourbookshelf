@@ -34,6 +34,16 @@ class EditAuthorView(LoginRequiredMixin, PermissionCheckMixin, UpdateView):
         author_id = self.object.id
         return reverse_lazy('author-details', kwargs={'author_id': author_id})
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.object.date_of_birth:
+            context['date_of_birth'] = self.object.date_of_birth.strftime('%Y-%m-%d')
+        return context
+
+    def form_invalid(self, form):
+        context = self.get_context_data(form=form)
+        return self.render_to_response(context)
+
 
 class DeleteAuthorView(LoginRequiredMixin, PermissionCheckMixin, DeleteView):
     template_name = 'author/delete_author.html'
