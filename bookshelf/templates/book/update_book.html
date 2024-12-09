@@ -17,9 +17,9 @@
         <div class="card-body">
             <form method="post">
                 {% csrf_token %}
-                
+
                 {{ form.as_p }}
-                
+
                 <div class="d-flex justify-content-end mt-4">
                     <button type="submit" class="btn btn-success me-2" style="margin-right: 1.5rem">Save the changes</button>
                     <a href="{% url 'book-details' book.id %}" class="btn btn-secondary">Reject</a>
