@@ -47,6 +47,10 @@ class Book(models.Model):
         default=GenreChoices.OTHERS
     )
 
+    updated_at = models.DateTimeField(
+        auto_now=True,
+    )
+
     def __str__(self):
         return self.title
 

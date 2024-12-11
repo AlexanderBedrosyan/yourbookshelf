@@ -29,6 +29,9 @@ class HomePageView(ListView):
     model = Book
     context_object_name = 'books'
 
+    def get_queryset(self):
+        return Book.objects.all().order_by('-updated_at', 'title')
+
 
 class AddCommentView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
@@ -38,7 +41,6 @@ class AddCommentView(LoginRequiredMixin, View):
 
         if text:
             comment = Comment.objects.create(user=request.user, book=book, text=text)
-            # Винаги връщаме JSON отговор.
             return JsonResponse({
                 'id': comment.id,
                 'text': comment.text,
@@ -46,7 +48,6 @@ class AddCommentView(LoginRequiredMixin, View):
                 'created_at': comment.created_at.strftime('%Y-%m-%d %H:%M:%S'),
             })
 
-        # Връщаме грешка, ако данните са невалидни.
         return JsonResponse({'error': 'Invalid data'}, status=400)
 
 
