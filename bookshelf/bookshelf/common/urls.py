@@ -1,7 +1,7 @@
 from django.urls import path, include
 from .views import (HomePageView, AddCommentView, EditCommentView, DeleteCommentView, FrontPageView, PermissionDeniedView,
                     QuizGameView, SearchResultsView, CreateReportView, SubmitAnswerView, NextQuestionView, AddRatingView,
-                    ReportsView, SingleReportView)
+                    ReportsView, SingleReportView, AllCommentsForSingleBookView)
 
 urlpatterns = [
     path('home/', HomePageView.as_view(), name='home'),
@@ -19,5 +19,6 @@ urlpatterns = [
     path('quiz/next_question/', NextQuestionView.as_view(), name='next-question'),
     path('rate_book/<int:book_id>/', AddRatingView.as_view(), name='rate-book'),
     path('all_reports/', ReportsView.as_view(), name='reports'),
-    path('<int:id>/single_report/', SingleReportView.as_view(), name='single-report')
+    path('<int:id>/single_report/', SingleReportView.as_view(), name='single-report'),
+    path('<int:id>/book-comments', AllCommentsForSingleBookView.as_view(), name='all-comments')
 ]

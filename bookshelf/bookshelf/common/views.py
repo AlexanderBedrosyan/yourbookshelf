@@ -263,3 +263,19 @@ class SingleReportView(LoginRequiredMixin, PermissionOnlyForStaffs, UpdateView):
         if 'form' not in context:
             context['form'] = self.form_class(instance=self.object)
         return context
+
+
+class AllCommentsForSingleBookView(ListView):
+    template_name = 'common/all_comments_for_book.html'
+    context_object_name = 'comments'
+
+    def get_queryset(self):
+        book_id = self.kwargs.get('id')
+        book = Book.objects.get(id=book_id)
+        return Comment.objects.filter(book=book).order_by('-created_at')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        book_id = self.kwargs.get('id')
+        context['book'] = Book.objects.get(id=book_id)
+        return context
