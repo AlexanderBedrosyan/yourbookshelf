@@ -29,7 +29,7 @@
                             </a>
                         </small>
                     </p>
-                    <p class="card-text text-center">{{ book.description }}</p>
+                    <p class="card-text text-center">{{ book.formatted_description|safe }}</p>
                 </div>
             </div>
         </div>
@@ -37,7 +37,7 @@
 
 
     {% if user.is_authenticated %}
-        <div class="card">
+        <div class="card" style="margin-bottom: 100px">
             <div class="card-body">
                 <h5 class="card-title text-center">Update Your Status For {{ book.title }}</h5>
                 <form id="update-status-form" method="POST" action="{% url 'book-status' book.id %}" class="d-flex flex-column align-items-center">

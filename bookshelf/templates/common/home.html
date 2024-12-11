@@ -27,7 +27,7 @@
                             <h5>{{ book.title }}</h5>
                             <small><a href="{% url 'author-details' book.author.id %}"
                                       class="text-primary text-decoration-underline">{{ book.author.get_full_name }}</a></small>
-                            <p class="card-text mt-3 text-center">{{ book.description|truncatechars:490 }}</p>
+                            <p class="card-text mt-3 text-center">{{ book.formatted_description|safe|truncatechars:490 }}</p>
                             {% if book.description|length > 100 %}
                                 <a href="{% url 'book-details' book.id %}" class="btn btn-link">Read More</a>
                             {% endif %}
@@ -42,7 +42,7 @@
                     {% else %}
                         <h6>Genre: Not added</h6>
                     {% endif %}
-                    <h6>Rating: <span id="average-rating-{{ book.id }}">{{ book.average_rating|floatformat:2 }}</span></h6>
+                    <h6>Rating: <span id="average-rating-{{ book.id }}">{{ book.average_rating|floatformat:1 }}</span></h6>
                     {% if user.is_authenticated %}
                     <div class="rating mb-3" data-book-id="{{ book.id }}">
                         {% for i in 5|to_range %}

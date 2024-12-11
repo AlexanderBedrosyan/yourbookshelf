@@ -55,7 +55,11 @@ class Book(models.Model):
         return self.title
 
     def average_rating(self):
-        return self.ratings.aggregate(Avg('rating'))['rating__avg'] or 0
+        curr_rating = f"{self.ratings.aggregate(Avg('rating'))['rating__avg']:.1f}" if self.ratings.aggregate(Avg('rating'))['rating__avg'] else None
+        return curr_rating or 0
+
+    def formatted_description(self):
+        return self.description.replace('\n', '<br>')
 
 
 class Comment(models.Model):

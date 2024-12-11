@@ -7,7 +7,7 @@ from bookshelf.book.models import Book, Comment
 class BaseBookForm(forms.ModelForm):
     class Meta:
         model = Book
-        exclude = ['approved', 'user']
+        exclude = ['approved', 'user', 'updated_at']
 
 
 class UpdateBookForm(BaseBookForm):
