@@ -29,7 +29,7 @@
             
                 <div class="card-body">
                     <h5 class="card-title">{{ author.get_full_name }}</h5>
-                    <p class="card-text"><strong>Biography:</strong> {{ author.bio }}</p>
+                    <p class="card-text"><strong>Biography:</strong> {{ author.formatted_bio|safe }}</p>
                     <p class="card-text"><strong>Date of Birth:</strong> {{ author.date_of_birth }}</p>
 
                     <div class="mt-3">

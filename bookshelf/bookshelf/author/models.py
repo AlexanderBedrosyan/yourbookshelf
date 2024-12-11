@@ -45,3 +45,6 @@ class Author(models.Model):
 
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
+
+    def formatted_bio(self):
+        return self.bio.replace('\n', '<br>')

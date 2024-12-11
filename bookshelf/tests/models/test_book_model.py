@@ -88,7 +88,7 @@ class BookModelTest(TestCase):
             user=self.customer1,
             rating=3
         )
-        self.assertEqual(book.average_rating(), 4)
+        self.assertEqual(book.average_rating(), '4.0')
 
     def test_default_values(self):
         book = Book.objects.create(

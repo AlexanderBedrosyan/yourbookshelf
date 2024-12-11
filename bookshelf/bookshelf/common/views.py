@@ -16,6 +16,8 @@ from ..accounts.models import CustomerModel
 from ..author.models import Author
 from ..mixins import PermissionCheckMixin, MinUniqueAuthors, MinBooksNeeded, PermissionOnlyForStaffs
 import json
+from django.utils.html import escape
+
 
 
 # Create your views here.
@@ -40,7 +42,8 @@ class AddCommentView(LoginRequiredMixin, View):
         text = request.POST.get("text")
 
         if text:
-            comment = Comment.objects.create(user=request.user, book=book, text=text)
+            sanitized_text = escape(text)
+            comment = Comment.objects.create(user=request.user, book=book, text=sanitized_text)
             return JsonResponse({
                 'id': comment.id,
                 'text': comment.text,
