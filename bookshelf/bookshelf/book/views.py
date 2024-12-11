@@ -15,7 +15,7 @@ from bookshelf.book.forms import CreateBookForm, UpdateBookForm
 from bookshelf.book.models import Book, UserBookStatus
 from bookshelf.book.serializers import BookSerializer
 from bookshelf.mixins import PermissionCheckMixin
-import asyncio
+from django.utils.html import escape
 
 
 # Create your views here.
@@ -29,7 +29,6 @@ class CreateBookView(CreateView):
 
     def form_valid(self, form):
         if not form.is_valid():
-            print(form.errors)
             return self.form_invalid(form)
 
         form.instance.user = self.request.user

@@ -19,7 +19,6 @@ import json
 from django.utils.html import escape
 
 
-
 # Create your views here.
 
 class FrontPageView(TemplateView):
