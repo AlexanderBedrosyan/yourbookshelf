@@ -2,11 +2,22 @@ document.getElementById('wikiForm').addEventListener('submit', async function (e
     e.preventDefault();
     const query = document.querySelector('[name="title"]').value.trim();
     const resultContainer = document.querySelector('[name="description"]');
-    resultContainer.innerHTML = '';
+    resultContainer.replaceChildren();
     const missingResult = document.getElementById('missing-content');
 
     if (!query) {
-        missingResult.innerHTML = `<p class="text-danger">Please enter a valid search term.</p>`;
+        missingResult.replaceChildren();
+        const message = document.createElement('p');
+        const helpMessage = document.createElement('p')
+
+        message.classList.add('text-danger');
+        helpMessage.classList.add('text-danger')
+
+        message.textContent = 'Please enter a valid search term.';
+        helpMessage.textContent = 'Please make sure to enter the title first. Note that some information may be missing if the title is not provided'
+
+        missingResult.appendChild(message);
+        missingResult.appendChild(helpMessage);
         return;
     }
 
@@ -15,8 +26,12 @@ document.getElementById('wikiForm').addEventListener('submit', async function (e
         const data = await response.json();
         const pages = data.query.pages;
 
-         if (!data.query.search.length) {
-            missingResult.innerHTML = `<p class="text-danger">No results found for "${query}".</p>`;
+        if (!data.query.search.length) {
+            missingResult.replaceChildren();
+            const message = document.createElement('p');
+            message.classList.add('text-danger');
+            message.textContent = `No results found for "${query}".`;
+            missingResult.appendChild(message);
             return;
         }
 
@@ -30,16 +45,18 @@ document.getElementById('wikiForm').addEventListener('submit', async function (e
         let text = page.extract || 'No summary available.';
 
         if (text === 'No summary available.') {
-            missingResult.innerHTML = `<p class="text-danger">No results found for "${query}".</p>`;
+            missingResult.replaceChildren();
+            const message = document.createElement('p');
+            message.classList.add('text-danger');
+            message.textContent = `No results found for "${query}".`;
+            missingResult.appendChild(message);
             return;
         }
 
         text = truncateToSentence(text, 1500);
-        resultContainer.innerHTML = `
-            ${text}
-        `;
+        resultContainer.textContent = text;
     } catch (error) {
-        resultContainer.innerHTML = `<p class="text-danger">An error occurred while fetching data. Please try again later.</p>`;
+        resultContainer.textContent = 'An error occurred while fetching data. Please try again later.';
         console.error(error);
     }
 });

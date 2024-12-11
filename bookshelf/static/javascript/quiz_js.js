@@ -1,10 +1,8 @@
 function submitAnswer(answer, book_id) {
     const bookId = book_id;
     const userAnswer = answer;
-    console.log(bookId)
 
     const resultMessage = document.getElementById('resultMessage');
-    console.log(answer)
     const csrfToken = document.querySelector('[name=csrf-token]').content;
 
     // Send the answer to the backend
@@ -21,17 +19,28 @@ function submitAnswer(answer, book_id) {
     })
         .then(response => response.json())
         .then(data => {
+            resultMessage.textContent = ''
             if (data.correct) {
-                resultMessage.innerHTML = `<p class="text-success">Correct! 🎉 Your score: ${data.new_score}</p>`;
+                const message = document.createElement('p');
+                message.classList.add('text-success');
+                message.textContent = `Correct! 🎉 Your score: ${data.new_score}`;
+                resultMessage.appendChild(message);
             } else {
-                resultMessage.innerHTML = `<p class="text-danger">Wrong answer. Try again! 😞</p>`;
+                const message = document.createElement('p');
+                message.classList.add('text-danger');
+                message.textContent = 'Wrong answer. Try again! 😞';
+                resultMessage.appendChild(message);
             }
 
             fetchNextQuestion()
         })
         .catch(error => {
+            resultMessage.textContent = ''
             console.error('Error:', error);
-            resultMessage.innerHTML = '<p class="text-danger">Something went wrong!</p>';
+            const errorMessage = document.createElement('p');
+            errorMessage.classList.add('text-danger');
+            errorMessage.textContent = 'Something went wrong!';
+            resultMessage.appendChild(errorMessage);
         });
 }
 
@@ -42,7 +51,7 @@ function fetchNextQuestion() {
             document.querySelector('.card-text').innerText = data.question;
 
             const answersContainer = document.querySelector('.d-flex');
-            answersContainer.innerHTML = '';
+            answersContainer.replaceChildren();
 
             data.answers.forEach(answer => {
                 const button = document.createElement('button');

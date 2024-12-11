@@ -2,21 +2,38 @@ document.getElementById('wikiForm').addEventListener('submit', async function (e
     e.preventDefault();
     const query = `${document.querySelector('[name="first_name"]').value.trim()} ${document.querySelector('[name="last_name"]').value.trim()} автор`;
     const resultContainer = document.querySelector('[name="bio"]');
-    resultContainer.innerHTML = '';
-    const missingResult = document.getElementById('missing-content');
+    resultContainer.replaceChildren();
 
-    if (!query) {
-        missingResult.innerHTML = `<p class="text-danger">Please enter a valid search term.</p>`;
+    const missingResult = document.getElementById('missing-content');
+    missingResult.replaceChildren();
+
+    console.log(typeof query, query)
+    if (!query || query.trim() === 'автор') {
+        const message = document.createElement('p');
+        const helpMessage = document.createElement('p');
+
+        message.classList.add('text-danger');
+        helpMessage.classList.add('text-danger');
+
+        message.textContent = 'Please enter a valid search term.';
+        helpMessage.textContent = 'Please make sure to enter the first and last name. Note that some information may be missing if the full name is not provided.';
+
+        missingResult.appendChild(message);
+        missingResult.appendChild(helpMessage);
         return;
     }
 
     try {
-        const response = await fetch(`https://bg.wikipedia.org/w/api.php?origin=*&action=query&list=search&format=json&srsearch=${encodeURIComponent(query)}&uselang=en`);
+        const response = await fetch(`https://bg.wikipedia.org/w/api.php?origin=*&action=query&list=search&format=json&srsearch=${encodeURIComponent(query.trim())}&uselang=en`);
         const data = await response.json();
         const pages = data.query.pages;
 
         if (!data.query.search.length) {
-            missingResult.innerHTML = `<p class="text-danger">No results found for "${query}".</p>`;
+            const message = document.createElement('p');
+            message.classList.add('text-danger');
+            message.textContent = `No results found for "${query}".`;
+
+            missingResult.appendChild(message);
             return;
         }
 
@@ -30,16 +47,21 @@ document.getElementById('wikiForm').addEventListener('submit', async function (e
         let text = page.extract || 'No summary available.';
 
         if (text === 'No summary available.') {
-            missingResult.innerHTML = `<p class="text-danger">No results found for "${query}".</p>`;
+            const message = document.createElement('p');
+            message.classList.add('text-danger');
+            message.textContent = `No results found for "${query}".`;
+            missingResult.appendChild(message);
             return;
         }
 
         text = truncateToSentence(text, 1500);
-        resultContainer.innerHTML = `
-            ${text}
-        `;
+        const textNode = document.createTextNode(text);
+        resultContainer.appendChild(textNode);
     } catch (error) {
-        resultContainer.innerHTML = `<p class="text-danger">An error occurred while fetching data. Please try again later.</p>`;
+        const message = document.createElement('p');
+        message.classList.add('text-danger');
+        message.textContent = 'An error occurred while fetching data. Please try again later.';
+        resultContainer.appendChild(message);
         console.error(error);
     }
 });
